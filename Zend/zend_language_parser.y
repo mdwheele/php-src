@@ -706,6 +706,8 @@ class_statement:
 			{ $$ = $3; $$->attr = $1; }
 	|	T_USE name_list trait_adaptations
 			{ $$ = zend_ast_create(ZEND_AST_USE_TRAIT, $2, $3); }
+	|	T_FRIEND name_list ';'
+			{ $$ = zend_ast_create(ZEND_AST_FRIEND, $2, NULL); }
 	|	method_modifiers function returns_ref identifier '(' parameter_list ')'
 		return_type backup_doc_comment method_body
 			{ $$ = zend_ast_create_decl(ZEND_AST_METHOD, $3 | $1, $2, $9,

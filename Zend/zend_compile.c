@@ -5463,6 +5463,25 @@ void zend_compile_use_trait(zend_ast *ast) /* {{{ */
 }
 /* }}} */
 
+void zend_compile_friend(zend_ast *ast) /* {{{ */
+{
+	zend_ast_list *friends = zend_ast_get_list(ast->child[0]);
+	zend_class_entry *ce = CG(active_class_entry);
+	zend_op *opline;
+
+	zend_string *friend_name = zend_resolve_class_name_ast(friends->child[0]);
+
+	/*
+	 * Stub for `friend` compilation step.
+	 *
+	 * 1. Check for "compile time" errors, if any.
+	 * 2. Create an emit the ZEND_ADD_FRIEND opline.
+	 */
+
+	zend_error_noreturn(E_COMPILE_ERROR, "Fail! But we are closer to adding friend '%s' to class '%s'", ZSTR_VAL(friend_name), ZSTR_VAL(ce->name));
+}
+/* }}} */
+
 void zend_compile_implements(znode *class_node, zend_ast *ast) /* {{{ */
 {
 	zend_ast_list *list = zend_ast_get_list(ast);
@@ -7368,6 +7387,9 @@ void zend_compile_stmt(zend_ast *ast) /* {{{ */
 			break;
 		case ZEND_AST_USE_TRAIT:
 			zend_compile_use_trait(ast);
+			break;
+		case ZEND_AST_FRIEND:
+			zend_compile_friend(ast);
 			break;
 		case ZEND_AST_CLASS:
 			zend_compile_class_decl(ast);

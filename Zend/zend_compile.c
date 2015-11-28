@@ -1217,6 +1217,7 @@ void zend_do_early_binding(void) /* {{{ */
 		case ZEND_VERIFY_ABSTRACT_CLASS:
 		case ZEND_ADD_INTERFACE:
 		case ZEND_ADD_TRAIT:
+		case ZEND_ADD_FRIEND:
 		case ZEND_BIND_TRAITS:
 			/* We currently don't early-bind classes that implement interfaces */
 			/* Classes with traits are handled exactly the same, no early-bind here */
@@ -5468,6 +5469,7 @@ void zend_compile_friend(zend_ast *ast) /* {{{ */
 	zend_ast_list *friends = zend_ast_get_list(ast->child[0]);
 	zend_class_entry *ce = CG(active_class_entry);
 	zend_op *opline;
+	uint32_t i;
 
 	zend_string *friend_name = zend_resolve_class_name_ast(friends->child[0]);
 
@@ -5478,7 +5480,15 @@ void zend_compile_friend(zend_ast *ast) /* {{{ */
 	 * 2. Create an emit the ZEND_ADD_FRIEND opline.
 	 */
 
-	zend_error_noreturn(E_COMPILE_ERROR, "Fail! But we are closer to adding friend '%s' to class '%s'", ZSTR_VAL(friend_name), ZSTR_VAL(ce->name));
+	for (i = 0; i < friends->children; ++i) {
+		zend_ast *friend_ast = friends->child[i];
+		zend_string *name = zend_ast_get_str(friend_ast);
+
+		opline = zend_emit_op(NULL, ZEND_ADD_FRIEND, &FC(implementing_class), NULL);
+		opline->op2_type = IS_CONST;
+		opline->op2.constant = zend_add_class_name_literal(CG(active_op_array),
+			zend_resolve_class_name_ast(friend_ast));
+	}
 }
 /* }}} */
 

@@ -1014,6 +1014,12 @@ ZEND_API void zend_do_implement_trait(zend_class_entry *ce, zend_class_entry *tr
 }
 /* }}} */
 
+ZEND_API void zend_do_implement_friend(zend_class_entry *ce, zend_class_entry *friend) /* {{{ */
+{
+	printf("DEBUG: '%s' is now a friend of '%s'...\n", ZSTR_VAL(friend->name), ZSTR_VAL(ce->name));
+}
+/* }}} */
+
 static zend_bool zend_traits_method_compatibility_check(zend_function *fn, zend_function *other_fn) /* {{{ */
 {
 	uint32_t    fn_flags = fn->common.scope->ce_flags;

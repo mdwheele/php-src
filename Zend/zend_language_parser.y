@@ -173,6 +173,7 @@ static YYSIZE_T zend_yytnamerr(char*, const char*);
 %token T_FINALLY    "finally (T_FINALLY)"
 %token T_THROW      "throw (T_THROW)"
 %token T_USE        "use (T_USE)"
+%token T_FRIEND     "friend (T_FRIEND)"
 %token T_INSTEADOF  "insteadof (T_INSTEADOF)"
 %token T_GLOBAL     "global (T_GLOBAL)"
 %token T_STATIC     "static (T_STATIC)"

@@ -1773,6 +1773,8 @@ ZEND_API void zend_initialize_class_data(zend_class_entry *ce, zend_bool nullify
 		ce->traits = NULL;
 		ce->trait_aliases = NULL;
 		ce->trait_precedences = NULL;
+		ce->num_friends = 0;
+		ce->friends = NULL;
 		ce->serialize = NULL;
 		ce->unserialize = NULL;
 		ce->serialize_func = NULL;

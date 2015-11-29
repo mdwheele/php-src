@@ -269,9 +269,25 @@ static void zend_std_call_issetter(zval *object, zval *member, zval *retval) /* 
 }
 /* }}} */
 
+static zend_always_inline zend_bool is_friend_of(zend_class_entry *class, zend_class_entry *candidate) /* {{{ */
+{
+	uint32_t i;
+
+	for (i = 0; i < class->num_friends; i++) {
+		if (class->friends[i] == candidate) {
+			return 1;
+		}
+	}
+
+	return 0;
+}
+/* }}} */
+
 static zend_always_inline int zend_verify_property_access(zend_property_info *property_info, zend_class_entry *ce) /* {{{ */
 {
 	if (property_info->flags & ZEND_ACC_PUBLIC) {
+		return 1;
+	} else if (is_friend_of(ce, EG(scope))) {
 		return 1;
 	} else if (property_info->flags & ZEND_ACC_PRIVATE) {
 		return (ce == EG(scope) || property_info->ce == EG(scope));

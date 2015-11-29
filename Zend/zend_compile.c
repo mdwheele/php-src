@@ -5715,6 +5715,11 @@ void zend_compile_class_decl(zend_ast *ast) /* {{{ */
 		ce->ce_flags |= ZEND_ACC_IMPLEMENT_INTERFACES;
 	}
 
+	if (ce->num_friends > 0) {
+		ce->friends = NULL;
+		ce->num_friends = 0;
+	}
+
 	FC(implementing_class) = original_implementing_class;
 	CG(active_class_entry) = original_ce;
 }

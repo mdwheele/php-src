@@ -5471,18 +5471,8 @@ void zend_compile_friend(zend_ast *ast) /* {{{ */
 	zend_op *opline;
 	uint32_t i;
 
-	zend_string *friend_name = zend_resolve_class_name_ast(friends->child[0]);
-
-	/*
-	 * Stub for `friend` compilation step.
-	 *
-	 * 1. Check for "compile time" errors, if any.
-	 * 2. Create an emit the ZEND_ADD_FRIEND opline.
-	 */
-
 	for (i = 0; i < friends->children; ++i) {
 		zend_ast *friend_ast = friends->child[i];
-		zend_string *name = zend_ast_get_str(friend_ast);
 
 		opline = zend_emit_op(NULL, ZEND_ADD_FRIEND, &FC(implementing_class), NULL);
 		opline->op2_type = IS_CONST;

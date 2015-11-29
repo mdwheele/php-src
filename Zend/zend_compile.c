@@ -5480,6 +5480,8 @@ void zend_compile_friend(zend_ast *ast) /* {{{ */
 		opline->op2_type = IS_CONST;
 		opline->op2.constant = zend_add_class_name_literal(CG(active_op_array),
 			zend_resolve_class_name_ast(friend_ast));
+
+		ce->num_friends++;
 	}
 }
 /* }}} */

@@ -25,8 +25,8 @@ class Friendly
 {
 	public function touch(Derived $derived)
 	{
-		echo $derived->override . PHP_EOL;   // Allowed via normal friend functionality
-		echo $derived->derived . PHP_EOL;    // Allowed because inherited and accessible by Derived
+		echo $derived->derived . PHP_EOL;    // Allowed via normal friend functionality
+		echo $derived->override . PHP_EOL;   // Allowed because inherited and accessible by Derived
 
 		echo $derived->secret . PHP_EOL;     // Dis-allowed because not accessible by Derived
 											 // In this case, it will behave just as if the derived itself
@@ -43,7 +43,7 @@ $derived->touch();
 --EXPECTF--
 Notice: Undefined property: Derived::$secret in /var/www/html/php-src/Zend/tests/friends/friend_inheritance_003.php on line %d
 
-override
 derived
+override
 
 Notice: Undefined property: Derived::$secret in /var/www/html/php-src/Zend/tests/friends/friend_inheritance_003.php on line %d

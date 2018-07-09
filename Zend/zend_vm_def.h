@@ -4927,6 +4927,9 @@ ZEND_VM_HANDLER(68, ZEND_NEW, UNUSED|CLASS_FETCH|CONST|VAR, UNUSED|CACHE_SLOT, N
 		HANDLE_EXCEPTION();
 	}
 
+	zend_namespace_from_op(opline);
+	//zend_error(E_WARNING, "I'm a newin' up a thing in %s.", ZSTR_VAL());
+
 	constructor = Z_OBJ_HT_P(result)->get_constructor(Z_OBJ_P(result));
 	if (constructor == NULL) {
 		if (UNEXPECTED(EG(exception))) {

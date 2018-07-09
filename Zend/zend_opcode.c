@@ -88,6 +88,9 @@ void init_op_array(zend_op_array *op_array, zend_uchar type, int initial_ops_siz
 	op_array->run_time_cache = NULL;
 	op_array->cache_size = 0;
 
+	op_array->namespace_array = NULL;
+	op_array->last_namespace = 0;
+
 	memset(op_array->reserved, 0, ZEND_MAX_RESERVED_RESOURCES * sizeof(void*));
 
 	if (zend_extension_flags & ZEND_EXTENSIONS_HAVE_OP_ARRAY_CTOR) {
@@ -398,6 +401,13 @@ ZEND_API void destroy_op_array(zend_op_array *op_array)
 	}
 	if (op_array->try_catch_array) {
 		efree(op_array->try_catch_array);
+	}
+	if (op_array->namespace_array) {
+		for (i = 0; i < op_array->last_namespace; i++) {
+			efree(op_array->namespace_array[i].name);
+		}
+
+		efree(op_array->namespace_array);
 	}
 	if (zend_extension_flags & ZEND_EXTENSIONS_HAVE_OP_ARRAY_DTOR) {
 		if (op_array->fn_flags & ZEND_ACC_DONE_PASS_TWO) {

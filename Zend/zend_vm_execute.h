@@ -8780,6 +8780,9 @@ static ZEND_OPCODE_HANDLER_RET ZEND_FASTCALL ZEND_NEW_SPEC_CONST_UNUSED_HANDLER(
 		HANDLE_EXCEPTION();
 	}
 
+	zend_namespace_from_op(opline);
+	//zend_error(E_WARNING, "I'm a newin' up a thing in %s.", ZSTR_VAL());
+
 	constructor = Z_OBJ_HT_P(result)->get_constructor(Z_OBJ_P(result));
 	if (constructor == NULL) {
 		if (UNEXPECTED(EG(exception))) {
@@ -27524,6 +27527,9 @@ static ZEND_OPCODE_HANDLER_RET ZEND_FASTCALL ZEND_NEW_SPEC_VAR_UNUSED_HANDLER(ZE
 		HANDLE_EXCEPTION();
 	}
 
+	zend_namespace_from_op(opline);
+	//zend_error(E_WARNING, "I'm a newin' up a thing in %s.", ZSTR_VAL());
+
 	constructor = Z_OBJ_HT_P(result)->get_constructor(Z_OBJ_P(result));
 	if (constructor == NULL) {
 		if (UNEXPECTED(EG(exception))) {
@@ -34260,6 +34266,9 @@ static ZEND_OPCODE_HANDLER_RET ZEND_FASTCALL ZEND_NEW_SPEC_UNUSED_UNUSED_HANDLER
 		ZVAL_UNDEF(result);
 		HANDLE_EXCEPTION();
 	}
+
+	zend_namespace_from_op(opline);
+	//zend_error(E_WARNING, "I'm a newin' up a thing in %s.", ZSTR_VAL());
 
 	constructor = Z_OBJ_HT_P(result)->get_constructor(Z_OBJ_P(result));
 	if (constructor == NULL) {

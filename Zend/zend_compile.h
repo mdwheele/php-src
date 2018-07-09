@@ -172,6 +172,12 @@ typedef struct _zend_try_catch_element {
 	uint32_t finally_end;
 } zend_try_catch_element;
 
+typedef struct _zend_namespace {
+	zend_string *name;
+	uint32_t start;
+	uint32_t end;
+} zend_namespace;
+
 #define ZEND_LIVE_TMPVAR  0
 #define ZEND_LIVE_LOOP    1
 #define ZEND_LIVE_SILENCE 2
@@ -400,6 +406,9 @@ struct _zend_op_array {
 
 	int last_literal;
 	zval *literals;
+
+	zend_namespace *namespace_array;
+	int last_namespace;
 
 	void *reserved[ZEND_MAX_RESERVED_RESOURCES];
 };

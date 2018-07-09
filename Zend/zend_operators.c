@@ -2668,6 +2668,12 @@ ZEND_API zend_string* ZEND_FASTCALL zend_string_tolower_ex(zend_string *str, int
 }
 /* }}} */
 
+ZEND_API zend_string* ZEND_FASTCALL zend_namespace_from_op(zend_op *opline) /* {{{ */
+{
+	
+}
+/* }}} */
+
 ZEND_API int ZEND_FASTCALL zend_binary_strcmp(const char *s1, size_t len1, const char *s2, size_t len2) /* {{{ */
 {
 	int retval;

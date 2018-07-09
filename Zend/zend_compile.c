@@ -1009,6 +1009,24 @@ static uint32_t zend_add_try_element(uint32_t try_op) /* {{{ */
 }
 /* }}} */
 
+static uint32_t zend_add_namespace_element(uint32_t start) /* {{{ */
+{
+	zend_op_array *op_array = CG(active_op_array);
+	uint32_t namespace_offset = op_array->last_namespace++;
+	zend_namespace *elem;
+
+	op_array->namespace_array = safe_erealloc(
+	 	op_array->namespace_array, sizeof(zend_namespace), op_array->last_namespace, 0);
+
+	elem = &op_array->namespace_array[namespace_offset];
+	elem->name = NULL;
+	elem->start = start;
+	elem->end = 0;
+
+	return namespace_offset;
+}
+/* }}} */
+
 ZEND_API void function_add_ref(zend_function *function) /* {{{ */
 {
 	if (function->type == ZEND_USER_FUNCTION) {
@@ -6727,7 +6745,9 @@ void zend_compile_namespace(zend_ast *ast) /* {{{ */
 	zend_ast *stmt_ast = ast->child[1];
 	zend_string *name;
 	zend_bool with_bracket = stmt_ast != NULL;
-
+	
+	uint32_t namespace_offset = zend_add_namespace_element(get_next_op_number(CG(active_op_array)));
+	
 	/* handle mixed syntax declaration or nested namespaces */
 	if (!FC(has_bracketed_namespaces)) {
 		if (FC(current_namespace)) {
@@ -6775,8 +6795,10 @@ void zend_compile_namespace(zend_ast *ast) /* {{{ */
 		}
 
 		FC(current_namespace) = zend_string_copy(name);
+		CG(active_op_array)->namespace_array[namespace_offset].name = zend_string_copy(name);
 	} else {
 		FC(current_namespace) = NULL;
+		CG(active_op_array)->namespace_array[namespace_offset].name = NULL;
 	}
 
 	zend_reset_import_tables();
@@ -6790,6 +6812,8 @@ void zend_compile_namespace(zend_ast *ast) /* {{{ */
 		zend_compile_top_stmt(stmt_ast);
 		zend_end_namespace();
 	}
+
+	CG(active_op_array)->namespace_array[namespace_offset].end = get_next_op_number(CG(active_op_array));
 }
 /* }}} */
 
